@@ -1,0 +1,13 @@
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: redis-worker-scaler
+spec:
+  scaleTargetRef:
+    name: redis-consumer
+  triggers:
+  - type: redis
+    metadata:
+      address: redis-master.default:6379
+      listName: task_queue
+      listLength: "50"
