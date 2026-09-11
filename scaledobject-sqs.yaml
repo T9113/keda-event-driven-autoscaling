@@ -1,0 +1,15 @@
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: sqs-worker-scaler
+spec:
+  scaleTargetRef:
+    name: queue-worker-deployment
+  minReplicaCount: 0
+  maxReplicaCount: 30
+  triggers:
+  - type: aws-sqs-queue
+    metadata:
+      queueURL: https://sqs.us-east-1.amazonaws.com/123456789012/ingestion-queue
+      queueLength: "10"
+      awsRegion: "us-east-1"
